@@ -37,8 +37,6 @@ num_of_amps = 2
 #-----Optimization parameters--
 # define the number of maximal iterations
 max_iter = 200
-# define the gtol parameter of the scipy 'BFGS' optimizer
-gtol = 1e-10
 
 # create an instance of the Pulse class to be used
 fourier_pulse = Qgoat.FourierPulseWithEnvelope(n_ts=n_ts,
@@ -50,7 +48,7 @@ fourier_pulse = Qgoat.FourierPulseWithEnvelope(n_ts=n_ts,
 optimizer = Qgoat.Optimizer(H0=H0, Hdrive=Hdrive,
                             target=Utarget,
                             pulse=fourier_pulse,
-                            max_iter=max_iter, gtol=gtol,
+                            max_iter=max_iter,
                             printProgress=True)
 
 # run the optimization
