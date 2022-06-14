@@ -54,7 +54,7 @@ class Pulse:
 
 class FourierPulseWithEnvelope(Pulse):
 
-    def __init__(self, n_ts, evo_time, num_of_amps, window=None):
+    def __init__(self, n_ts, evo_time, num_of_amps, window=None, omega10=0.1):
         super().__init__(n_ts, evo_time, window)
         self.num_fourier_params = num_of_amps
         self.amps = None
@@ -62,10 +62,10 @@ class FourierPulseWithEnvelope(Pulse):
         self.phase = None
         self.amplitude = None
 
-        self.create_guess_amps()
+        self.create_guess_amps(omega10)
 
 
-    def create_guess_amps(self, omega10=0.1):
+    def create_guess_amps(self, omega10):
 
         amps = (1 * np.random.rand(self.num_fourier_params) - 0.5)
         w = omega10
