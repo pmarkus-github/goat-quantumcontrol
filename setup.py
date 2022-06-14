@@ -1,9 +1,11 @@
 from setuptools import setup, find_packages
+from pathlib import Path
 
-VERSION = '0.0.3'
+VERSION = '0.0.3.5'
 DESCRIPTION = 'Python implementation of the quantum optimal control GOAT-algorithm'
-LONG_DESCRIPTION = 'A package that allows you to use the GOAT-algorithm for the implementation of unitary gates' \
-                   'in quantum systems.'
+# read the contents of the README file
+this_directory = Path(__file__).parent
+LONG_DESCRIPTION = (this_directory / "README.md").read_text()
 
 # Setting up
 setup(
