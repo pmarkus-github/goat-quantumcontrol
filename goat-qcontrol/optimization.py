@@ -8,7 +8,7 @@ class Optimizer:
 
     def __init__(self, H0, Hdrive,
                  target, pulse,
-                 max_iter, ftol,
+                 max_iter, gtol=1e-10,
                  printProgress=False):
 
         self.H0 = H0
@@ -16,7 +16,7 @@ class Optimizer:
         self.pulse = pulse
         self.max_iter = max_iter
         self.printProgress = printProgress
-        self.ftol = ftol
+        self.gtol = gtol
         self.infidelity = None
         self.infidelities = None
         self.options = None
@@ -27,7 +27,6 @@ class Optimizer:
         self.evolvedState = None
         self.startTime = None
         self.endTime = None
-        self.version = '1.2'
 
         # defer the dimensionality of the system from the provided Hamiltonian
         self.dimensions = self.H0.shape[0]
@@ -72,7 +71,7 @@ class Optimizer:
         print('Start optimization...')
         self.startTime = time.time()
         self.result = optimize.minimize(fun=self.compute_infidelity, x0=guess_amps,
-                                        method='BFGS', jac=True,
+                                        method='BFGS', jac=True, tol=self.gtol,
                                         options=self.options,
                                         callback=self.callBack)
 

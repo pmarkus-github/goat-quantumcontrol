@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 DESCRIPTION = 'Python implementation of the quantum optimal control GOAT-algorithm'
 LONG_DESCRIPTION = 'A package that allows you to use the GOAT-algorithm for the implementation of unitary gates' \
                    'in quantum systems.'

@@ -1,6 +1,4 @@
 import numpy as np
-import scipy.signal.windows
-from scipy import signal
 from matplotlib import pyplot as plt
 
 
@@ -28,7 +26,7 @@ def eval_gaussian_window(t, evo_time):
 
 class Pulse:
 
-    def __init__(self, n_ts, evo_time):
+    def __init__(self, n_ts, evo_time, window=None):
         self.num_ctrls = None
         self.model_params = None
         self.total_params = None
@@ -37,6 +35,9 @@ class Pulse:
         self.window = None
         self.evo_time = evo_time
         self.n_ts = n_ts
+
+        if window == 'blackman': self.window = eval_blackman_window
+        if window == 'gaussian': self.window = eval_gaussian_window
 
 
     @property
@@ -62,7 +63,7 @@ class FourierPulseWithEnvelope(Pulse):
         self.amplitude = None
 
 
-    def create_guess_amps(self, omega10=0.1, window=None):
+    def create_guess_amps(self, omega10=0.1):
 
         amps = (1 * np.random.rand(self.num_fourier_params) - 0.5)
         w = omega10
@@ -77,9 +78,6 @@ class FourierPulseWithEnvelope(Pulse):
 
         self.total_params = self.num_fourier_params + 3
         self.guess_amps = self.model_params
-
-        if window == 'blackman': self.window = eval_blackman_window
-        if window == 'gaussian': self.window = eval_gaussian_window
 
     def evalPulseAndDerivatives(self, t):
 
@@ -152,7 +150,7 @@ class FourierSeries(Pulse):
         self.cos_amps = None
         self.window = None
 
-    def create_guess_amps(self, window=None):
+    def create_guess_amps(self):
 
         amps_sin = (1 * np.random.rand(self.num_fourier_params) - 0.5)
         amps_cos = (1 * np.random.rand(self.num_fourier_params) - 0.5)
@@ -163,8 +161,6 @@ class FourierSeries(Pulse):
 
         self.total_params = self.num_fourier_params * 2
         self.guess_amps = self.model_params
-
-        if window: self.window = eval_blackman_window(self.t, self.evo_time)
 
     def evalPulseAndDerivatives(self, t):
 
@@ -229,7 +225,7 @@ class GaussianPulse(Pulse):
         self.means = None
         self.variances = None
 
-    def create_guess_amps(self, window=None):
+    def create_guess_amps(self):
 
         amps = (1 * np.random.rand(self.num_of_amps) - 0.5)
         means = (1 * np.random.rand(self.num_of_amps) - 0.5)
@@ -242,8 +238,6 @@ class GaussianPulse(Pulse):
 
         self.total_params = self.num_of_amps * 3
         self.guess_amps = self.model_params
-
-        if window: self.window = eval_blackman_window(self.t, self.evo_time)
 
     def evalPulseAndDerivatives(self, t):
 
