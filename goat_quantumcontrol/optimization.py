@@ -76,13 +76,13 @@ class Optimizer:
             self.print_progress_per_iter(data=None)
 
         self.loginstance.logger.info('Start optimization...')
-        startTime = time.time()
+        startTime = time.perf_counter()
         self.result = optimize.minimize(fun=self.compute_infidelity, x0=guess_amps,
                                         method='BFGS', jac=True,
                                         options=self.options,
                                         callback=self.callBack)
 
-        endTime = time.time()
+        endTime = time.perf_counter()
         self.elapsedTime = endTime - startTime
 
         self.loginstance.logger.info("Elapsed time: {}s" .format(self.elapsedTime))
