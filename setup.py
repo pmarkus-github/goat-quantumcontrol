@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from pathlib import Path
 
-VERSION = '0.0.3.5'
+VERSION = '0.0.4'
 DESCRIPTION = 'Python implementation of the quantum optimal control GOAT-algorithm'
 # read the contents of the README file
 this_directory = Path(__file__).parent
@@ -18,7 +18,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     url='https://github.com/pmarkus-github/goat-quantumcontrol',
     packages=find_packages(),
-    install_requires=['numpy==1.21.5', 'scipy==1.7.3', 'matplotlib==3.5.1'],
+    install_requires=['numpy', 'scipy', 'matplotlib'],
     keywords=['python', 'quantum-control', 'goat', 'quantum-gates', 'quantum-computer'],
     classifiers=[
         "Development Status :: 4 - Beta",
