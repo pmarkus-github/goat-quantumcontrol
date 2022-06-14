@@ -1,4 +1,4 @@
-# goat-qcontrol
+# goat_qcontrol
 
 goat-qcontrol is a Python library for the optimization of quantum gates using the GOAT algorithm [1].
 
@@ -7,13 +7,13 @@ goat-qcontrol is a Python library for the optimization of quantum gates using th
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
 ```bash
-pip install goat-qcontrol
+pip install goat_qcontrol
 ```
 
 ## Usage
 
 ```python
-import goat-qcontrol
+import goat_qcontrol
 
 #-----System parameters------
 # define the drift Hamiltonian
@@ -38,7 +38,7 @@ max_iter = 200
 gtol = 1e-10
 
 # create an instance of the Pulse class to be used
-fourier_pulse = goat-qcontrol.pulses.FourierPulseWithEnvelope(n_ts=n_ts,
+fourier_pulse = goat_qcontrol.pulses.FourierPulseWithEnvelope(n_ts=n_ts,
                                                               evo_time=evo_time,
                                                               num_of_amps=num_of_amps,
                                                               window=None)
@@ -47,7 +47,7 @@ fourier_pulse = goat-qcontrol.pulses.FourierPulseWithEnvelope(n_ts=n_ts,
 fourier_pulse.create_guess_amps()
 
 # create an instance of the Optimizer class
-optimizer = goat-qcontrol.optimization.Optimizer(H0=H0, Hdrive=Hdrive,
+optimizer = goat_qcontrol.optimization.Optimizer(H0=H0, Hdrive=Hdrive,
                                                  target=Utarget,
                                                  pulse=fourier_pulse,
                                                  max_iter=max_iter, gtol=gtol,
