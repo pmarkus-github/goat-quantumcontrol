@@ -46,9 +46,6 @@ fourier_pulse = Qgoat.FourierPulseWithEnvelope(n_ts=n_ts,
                                                num_of_amps=num_of_amps,
                                                window=None)
 
-# create initial guess_amps with 
-fourier_pulse.create_guess_amps()
-
 # create an instance of the Optimizer class
 optimizer = Qgoat.Optimizer(H0=H0, Hdrive=Hdrive,
                             target=Utarget,
