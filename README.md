@@ -1,19 +1,22 @@
-# goat-qcontrol
+# goat_quantumcontrol
 
-goat-qcontrol is a Python library for the optimization of quantum gates using the GOAT algorithm [1].
+goat_quantumcontrol is a Python library for the optimization of quantum gates using the GOAT algorithm.
+
+The algorithm was developed in 2018 by Machnes et. al. and got published in following paper:
+https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.120.150401
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install goat_quantumcontrol.
 
 ```bash
-pip install goat-qcontrol
+pip install goat_quantumcontrol
 ```
 
 ## Usage
 
 ```python
-import goat-qcontrol
+import goat_quantumcontrol as Qgoat
 
 #-----System parameters------
 # define the drift Hamiltonian
@@ -38,20 +41,20 @@ max_iter = 200
 gtol = 1e-10
 
 # create an instance of the Pulse class to be used
-fourier_pulse = goat-qcontrol.pulses.FourierPulseWithEnvelope(n_ts=n_ts,
-                                                              evo_time=evo_time,
-                                                              num_of_amps=num_of_amps,
-                                                              window=None)
+fourier_pulse = Qgoat.pulses.FourierPulseWithEnvelope(n_ts=n_ts,
+                                                      evo_time=evo_time,
+                                                      num_of_amps=num_of_amps,
+                                                      window=None)
 
 # create initial guess_amps with 
 fourier_pulse.create_guess_amps()
 
 # create an instance of the Optimizer class
-optimizer = goat-qcontrol.optimization.Optimizer(H0=H0, Hdrive=Hdrive,
-                                                 target=Utarget,
-                                                 pulse=fourier_pulse,
-                                                 max_iter=max_iter, gtol=gtol,
-                                                 printProgress=True)
+optimizer = Qgoat.optimization.Optimizer(H0=H0, Hdrive=Hdrive,
+                                         target=Utarget,
+                                         pulse=fourier_pulse,
+                                         max_iter=max_iter, gtol=gtol,
+                                         printProgress=True)
 
 # run the optimization
 optimizer.run_optimization()
