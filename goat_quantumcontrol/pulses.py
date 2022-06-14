@@ -26,13 +26,13 @@ def eval_gaussian_window(t, evo_time):
 
 class Pulse:
 
-    def __init__(self, n_ts, evo_time, window=None):
+    def __init__(self, n_ts, evo_time, window):
         self.num_ctrls = None
         self.model_params = None
         self.total_params = None
         self.guess_amps = None
         self.pulse = None
-        self.window = None
+        self.window = window
         self.evo_time = evo_time
         self.n_ts = n_ts
 
@@ -54,13 +54,15 @@ class Pulse:
 
 class FourierPulseWithEnvelope(Pulse):
 
-    def __init__(self, n_ts, evo_time, num_of_amps):
-        super().__init__(n_ts, evo_time)
+    def __init__(self, n_ts, evo_time, num_of_amps, window=None):
+        super().__init__(n_ts, evo_time, window)
         self.num_fourier_params = num_of_amps
         self.amps = None
         self.w = None
         self.phase = None
         self.amplitude = None
+
+        self.create_guess_amps()
 
 
     def create_guess_amps(self, omega10=0.1):
@@ -143,12 +145,14 @@ class FourierPulseWithEnvelope(Pulse):
 
 class FourierSeries(Pulse):
 
-    def __init__(self, n_ts, evo_time, num_of_amps):
-        super().__init__(n_ts, evo_time)
+    def __init__(self, n_ts, evo_time, num_of_amps, window=None):
+        super().__init__(n_ts, evo_time, window)
         self.num_fourier_params = num_of_amps
         self.sin_amps = None
         self.cos_amps = None
         self.window = None
+
+        self.create_guess_amps()
 
     def create_guess_amps(self):
 
@@ -218,12 +222,14 @@ class FourierSeries(Pulse):
 
 class GaussianPulse(Pulse):
 
-    def __init__(self, n_ts, evo_time, num_of_amps):
-        super().__init__(n_ts, evo_time)
+    def __init__(self, n_ts, evo_time, num_of_amps, window=None):
+        super().__init__(n_ts, evo_time, window)
         self.num_of_amps = num_of_amps
         self.amps = None
         self.means = None
         self.variances = None
+
+        self.create_guess_amps()
 
     def create_guess_amps(self):
 

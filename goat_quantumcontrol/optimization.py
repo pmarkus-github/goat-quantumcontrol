@@ -1,5 +1,6 @@
 import numpy as np
 import time
+from . import log
 from scipy.integrate import solve_ivp
 from scipy import optimize
 
@@ -8,7 +9,7 @@ class Optimizer:
 
     def __init__(self, H0, Hdrive,
                  target, pulse,
-                 max_iter, gtol=1e-10,
+                 max_iter=200, gtol=None,
                  printProgress=False):
 
         self.H0 = H0
@@ -24,9 +25,7 @@ class Optimizer:
         self.result = None
         self.iterations = None
         self.evolved = None
-        self.evolvedState = None
-        self.startTime = None
-        self.endTime = None
+        self.elapsedTime = None
 
         # defer the dimensionality of the system from the provided Hamiltonian
         self.dimensions = self.H0.shape[0]
@@ -50,9 +49,15 @@ class Optimizer:
             'maxiter': self.max_iter,
             'disp': True
         }
+        log.init_logger()
+        if self.gtol is not None:
+            if not isinstance(self.gtol, float):
+                log.logger.info('Only float values are accepted for the gtol attribute!')
+                exit()
+            self.options['gtol'] = self.gtol
 
         if not isinstance(printProgress, bool):
-            print('Only boolean values accepted for the printProgress attribute!')
+            log.logger.info('Only boolean values accepted for the printProgress attribute!')
             exit()
         elif printProgress:
             self.callBack = self.print_progress_per_iter
@@ -64,19 +69,21 @@ class Optimizer:
         guess_amps = self.pulse.guess_amps
 
         if self.printProgress:
-            print('Initial infidelity:')
+            log.logger.info('Initial infidelity:')
             self.compute_infidelity(guess_amps, nargout=1)
             self.print_progress_per_iter(data=None)
 
-        print('Start optimization...')
-        self.startTime = time.time()
+        log.logger.info('Start optimization...')
+        startTime = time.time()
         self.result = optimize.minimize(fun=self.compute_infidelity, x0=guess_amps,
-                                        method='BFGS', jac=True, tol=self.gtol,
+                                        method='BFGS', jac=True,
                                         options=self.options,
                                         callback=self.callBack)
 
-        self.endTime = time.time()
-        print("Elapsed time: {}s" .format(self.endTime - self.startTime))
+        endTime = time.time()
+        self.elapsedTime = endTime - startTime
+
+        log.logger.info("Elapsed time: {}s" .format(self.elapsedTime))
         return self
 
 
@@ -165,8 +172,8 @@ class Optimizer:
 
     def print_progress_per_iter(self, data):
 
-        print('[Iteration: {}]----Infidelity: {}'
-              .format(self.iterations, self.infidelity))
+        log.logger.info('[Iteration: {}]----Infidelity: {}'
+                        .format(self.iterations, self.infidelity))
 
         if self.iterations > 0:
             self.infidelities = np.append(self.infidelities, [self.infidelity])
@@ -174,6 +181,3 @@ class Optimizer:
             self.infidelities = np.array([self.infidelity])
 
         self.iterations += 1
-
-
-
