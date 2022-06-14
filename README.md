@@ -1,8 +1,8 @@
 # goat_quantumcontrol
 
-goat_quantumcontrol is a Python library for the optimization of quantum gates using the GOAT algorithm.
+goat_quantumcontrol is a python library for the optimization of quantum gates using the GOAT algorithm.
 
-The algorithm was developed in 2018 by Machnes et. al. and got published in following paper:
+The algorithm was developed in 2018 by Machnes et. al. and got published in the following paper:
 https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.120.150401
 
 ## Installation
@@ -57,8 +57,6 @@ optimizer.run_optimization()
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
