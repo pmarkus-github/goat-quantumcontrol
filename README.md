@@ -41,20 +41,20 @@ max_iter = 200
 gtol = 1e-10
 
 # create an instance of the Pulse class to be used
-fourier_pulse = Qgoat.pulses.FourierPulseWithEnvelope(n_ts=n_ts,
-                                                      evo_time=evo_time,
-                                                      num_of_amps=num_of_amps,
-                                                      window=None)
+fourier_pulse = Qgoat.FourierPulseWithEnvelope(n_ts=n_ts,
+                                               evo_time=evo_time,
+                                               num_of_amps=num_of_amps,
+                                               window=None)
 
 # create initial guess_amps with 
 fourier_pulse.create_guess_amps()
 
 # create an instance of the Optimizer class
-optimizer = Qgoat.optimization.Optimizer(H0=H0, Hdrive=Hdrive,
-                                         target=Utarget,
-                                         pulse=fourier_pulse,
-                                         max_iter=max_iter, gtol=gtol,
-                                         printProgress=True)
+optimizer = Qgoat.Optimizer(H0=H0, Hdrive=Hdrive,
+                            target=Utarget,
+                            pulse=fourier_pulse,
+                            max_iter=max_iter, gtol=gtol,
+                            printProgress=True)
 
 # run the optimization
 optimizer.run_optimization()
