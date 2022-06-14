@@ -1,6 +1,6 @@
 # goat_qcontrol
 
-goat-qcontrol is a Python library for the optimization of quantum gates using the GOAT algorithm [1].
+goat_qcontrol is a Python library for the optimization of quantum gates using the GOAT algorithm [1].
 
 ## Installation
 
