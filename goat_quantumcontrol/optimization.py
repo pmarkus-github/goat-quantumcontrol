@@ -26,6 +26,7 @@ class Optimizer:
         self.iterations = None
         self.evolved = None
         self.elapsedTime = None
+        self.loginstance = None
 
         # defer the dimensionality of the system from the provided Hamiltonian
         self.dimensions = self.H0.shape[0]
@@ -49,15 +50,16 @@ class Optimizer:
             'maxiter': self.max_iter,
             'disp': True
         }
-        log.init_logger()
+        self.loginstance = log.LogClass()
+        self.loginstance.init_logger()
         if self.gtol is not None:
             if not isinstance(self.gtol, float):
-                log.logger.info('Only float values are accepted for the gtol attribute!')
+                self.loginstance.logger.info('Only float values are accepted for the gtol attribute!')
                 exit()
             self.options['gtol'] = self.gtol
 
         if not isinstance(printProgress, bool):
-            log.logger.info('Only boolean values accepted for the printProgress attribute!')
+            self.loginstance.logger.info('Only boolean values accepted for the printProgress attribute!')
             exit()
         elif printProgress:
             self.callBack = self.print_progress_per_iter
@@ -69,11 +71,11 @@ class Optimizer:
         guess_amps = self.pulse.guess_amps
 
         if self.printProgress:
-            log.logger.info('Initial infidelity:')
+            self.loginstance.logger.info('Initial infidelity:')
             self.compute_infidelity(guess_amps, nargout=1)
             self.print_progress_per_iter(data=None)
 
-        log.logger.info('Start optimization...')
+        self.loginstance.logger.info('Start optimization...')
         startTime = time.time()
         self.result = optimize.minimize(fun=self.compute_infidelity, x0=guess_amps,
                                         method='BFGS', jac=True,
@@ -83,7 +85,7 @@ class Optimizer:
         endTime = time.time()
         self.elapsedTime = endTime - startTime
 
-        log.logger.info("Elapsed time: {}s" .format(self.elapsedTime))
+        self.loginstance.logger.info("Elapsed time: {}s" .format(self.elapsedTime))
         return self
 
 
@@ -172,8 +174,8 @@ class Optimizer:
 
     def print_progress_per_iter(self, data):
 
-        log.logger.info('[Iteration: {}]----Infidelity: {}'
-                        .format(self.iterations, self.infidelity))
+        self.loginstance.logger.info('[Iteration: {}]----Infidelity: {}'
+                                     .format(self.iterations, self.infidelity))
 
         if self.iterations > 0:
             self.infidelities = np.append(self.infidelities, [self.infidelity])
