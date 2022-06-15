@@ -44,6 +44,7 @@ class Optimizer:
         self.U0[0:self.dimensions_sq] = np.identity(self.dimensions).reshape((self.dimensions_sq,))
         self.U0 = self.U0.astype(complex)
 
+        self.target = target
         self.target_dagger = np.conjugate(target.T)
 
         self.options = {
@@ -70,6 +71,9 @@ class Optimizer:
         self.iterations = 0
         guess_amps = self.pulse.guess_amps
 
+        self.loginstance.logger.info(f'Target Gate: {self.target}; Included basis states: {self.dimensions}')
+        self.loginstance.logger.info('Starting optimization...')
+
         if self.printProgress:
             self.loginstance.logger.info('Initial infidelity:')
             self.compute_infidelity(guess_amps, nargout=1)
@@ -84,8 +88,12 @@ class Optimizer:
 
         endTime = time.perf_counter()
         self.elapsedTime = endTime - startTime
+        time_unit = 'seconds'
+        if self.elapsedTime > 60:
+            self.elapsedTime /= 60
+            time_unit = 'minutes'
 
-        self.loginstance.logger.info("Elapsed time: {}s" .format(self.elapsedTime))
+        self.loginstance.logger.info(f'Elapsed time: {self.elapsedTime}{time_unit}')
         return self
 
 
