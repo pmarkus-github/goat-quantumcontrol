@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from pathlib import Path
 
-VERSION = '0.0.4'
+VERSION = '0.0.5'
 DESCRIPTION = 'Python implementation of the quantum optimal control GOAT-algorithm'
 # read the contents of the README file
 this_directory = Path(__file__).parent
